@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: timesup-db
+    environment:
+      POSTGRES_DB: timesup
+      POSTGRES_USER: timesup
+      POSTGRES_PASSWORD: timesup123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - timesup-network
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: timesup-backend
+    ports:
+      - "3002:3002"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=timesup
+      - DB_USER=timesup
+      - DB_PASSWORD=timesup123
+    depends_on:
+      - postgres
+    networks:
+      - timesup-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  timesup-network:
+    driver: bridge
