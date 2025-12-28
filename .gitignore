@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+.DS_Store
+mobile/TimesUpApp/ios/Pods/
+mobile/TimesUpApp/android/.gradle
